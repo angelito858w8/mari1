@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Amor</title>
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #fde2e4, #f9ccd3, #f8edeb);
+            color: #4a4a4a;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: #f8bbd0;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        /* Navegación */
+        nav {
+            background-color: #e75888;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #f06292;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #e91e63;
+        }
+
+        /* Contenido principal */
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Sección de héroe */
+        #hero {
+            text-align: center;
+            padding: 3rem 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        #hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #hero p {
+            font-size: 1.2rem;
+        }
+
+        /* Sección de poemas */
+        #poemas {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        #poemas h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .poema {
+            white-space: pre-line;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .poema-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .poema-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .poema-buttons button {
+            background-color: #f8bbd0;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .poema-buttons button:hover {
+            background-color: #f48fb1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #f8bbd0;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Fondo animado */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-item {
+            position: absolute;
+            opacity: 0.5;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Reproductor de música */
+        #music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        #music-toggle {
+            background-color: #f8bbd0;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        #music-toggle:hover {
+            background-color: #f48fb1;
+        }
+
+        #music-toggle.playing {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg" id="animated-bg"></div>
+
+    <header>
+        Para Mi Amor, Hoy y Siempre
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#poemas">Poemas</a></li>
+           
+        </ul>
+    </nav>
+
+    <main>
+        <section id="hero">
+            <h1>hi my love</h1>
+            <p>hoy no te pude regalar flores hoy pero te regalo un rinconcito donde expreso cuanto te amo ❤️</p>
+        </section>
+
+        <section id="poemas">
+            <h2>Poemas de Amor</h2>
+            <div id="poema-container">
+                <div class="poema-title" id="poema-title"></div>
+                <div class="poema" id="poema-content"></div>
+                <div class="poema-buttons">
+                    <button id="prev-poema">Poema Anterior</button>
+                    <button id="next-poema">Siguiente Poema</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Siempre tuyo, con amor eterno.</p>
+        <p>Si en algún momento quieres ver otro poema para ti,<br>recuerda que esta web siempre será tuya, baby. 💕</p>
+        <p> <span id="current-year"></span> Nuestro Rincón de Amor</p>
+    </footer>
+
+    <div id="music-player">
+        <audio id="background-music" loop>
+            <source src="https://example.com/piano-background.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+        <button id="music-toggle">▶️</button>
+    </div>
+
+    <script>
+        // Poemas
+        const poemas = [
+            {
+                title: "no soy",
+                content: `
+No soy Mike Morales,
+ni puedo colgarme de las estrellas,
+ni surcar los cielos con telarañas eternas,
+pero en mis manos llevo el hilo de un sueño,
+y en mi pecho, un universo que nos espera.
+
+Quiero tejer contigo un cuento inmortal,
+donde los días sean lienzos
+y las noches constelaciones de risas,
+un refugio tan fuerte como el acero,
+tan cálido como un abrazo que nunca termina.
+
+Y si un día, por azares del destino,
+las telarañas se rompen y caemos,
+juntos, con paciencia y esperanza,
+las volveremos a hilar, más firmes, más bellas,
+porque el amor verdadero nunca se quiebra,
+solo se transforma y vuela.
+
+No soy un héroe de capa ni máscara,
+pero en mi corazón guardo el poder
+de construir contigo un mundo nuevo,
+donde cada hilo sea un lazo eterno,
+y tú, mi amor, seas siempre mi historia,
+mi centro, mi telaraña del cielo.
+`
+            },
+            {
+                title: "Nuestro Amor Eterno",
+                content: `
+En el lienzo de la vida,
+nuestro amor es la obra maestra.
+Cada día una nueva pincelada,
+cada momento una aventura.
+
+Tus ojos, mi guía en la oscuridad,
+tu sonrisa, mi sol en días grises.
+Nuestro amor, una eternidad,
+que florece en todos los matices.
+
+Juntos, somos más que dos,
+somos un sueño hecho realidad.
+Un amor que desafía el tiempo,
+una historia de felicidad.
+
+Te amo hoy, te amaré mañana,
+y en cada amanecer que venga.
+Porque nuestro amor, mi vida,
+es la más bella leyenda.`
+            },
+            {
+                title: "Susurros del Corazón",
+                content: `
+En el silencio de la noche,
+mi corazón te susurra.
+Palabras de amor eterno,
+que el viento a ti murmura.
+
+Eres mi sueño cumplido,
+mi realidad más hermosa.
+El latido que da sentido,
+a esta vida maravillosa.
+
+Cada día a tu lado es un regalo,
+cada instante una bendición.
+Eres el amor que tanto anhelaba,
+la paz de mi corazón.
+
+Te amo más allá de las palabras,
+más allá de todo entendimiento.
+Eres mi presente y mi mañana,
+el amor que en mi alma siento.`
+            }
+        ];
+
+        let currentPoemaIndex = 0;
+
+        function updatePoema() {
+            const poema = poemas[currentPoemaIndex];
+            document.getElementById('poema-title').textContent = poema.title;
+            document.getElementById('poema-content').textContent = poema.content;
+        }
+
+        document.getElementById('prev-poema').addEventListener('click', () => {
+            currentPoemaIndex = (currentPoemaIndex - 1 + poemas.length) % poemas.length;
+            updatePoema();
+        });
+
+        document.getElementById('next-poema').addEventListener('click', () => {
+            currentPoemaIndex = (currentPoemaIndex + 1) % poemas.length;
+            updatePoema();
+        });
+
+        // Inicializar el primer poema
+        updatePoema();
+
+        // Fondo animado
+        const bgItems = [
+            { type: 'flower', color: '#fce4ec', size: '40px' },
+            { type: 'star', color: '#fff9c4', size: '30px' },
+            { type: 'heart', color: '#f8bbd0', size: '50px' },
+            { type: 'bubble', color: '#e3f2fd', size: '20px' },
+        ];
+
+        function createBgItem() {
+            const item = document.createElement('div');
+            const randomItem = bgItems[Math.floor(Math.random() * bgItems.length)];
+            item.style.width = randomItem.size;
+            item.style.height = randomItem.size;
+            item.style.backgroundColor = randomItem.color;
+            item.style.borderRadius = '50%';
+            item.style.position = 'absolute';
+            item.style.left = `${Math.random() * 100}%`;
+            item.style.animationDuration = `${15 + Math.random() * 10}s`;
+            item.style.animationDelay = `${Math.random() * 5}s`;
+            item.classList.add('bg-item');
+            return item;
+        }
+
+        const animatedBg = document.getElementById('animated-bg');
+        for (let i = 0; i < 100000; i++) {
+            animatedBg.appendChild(createBgItem());
+        }
+
+        // Reproductor de música
+        const musicToggle = document.getElementById('music-toggle');
+        const backgroundMusic = document.getElementById('background-music');
+
+        musicToggle.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                musicToggle.textContent = '🎵';
+                musicToggle.classList.add('playing');
+            } else {
+                backgroundMusic.pause();
+                musicToggle.textContent = '▶️';
+                musicToggle.classList.remove('playing');
+            }
+        });
+
+       
+    </script>
+</body>
+</html>
